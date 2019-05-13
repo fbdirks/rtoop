@@ -1,0 +1,6 @@
+<?php
+
+// rekentrainer.php
+
+
+?>
