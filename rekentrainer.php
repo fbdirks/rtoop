@@ -1,10 +1,13 @@
 <?php
 
 // rekentrainer.php
+
 include "Training.php";
 include "Som.php";
 
+session_start();
 ?>
+
 <h2>Welkom bij deze rekentrainer</h2>
 
 
