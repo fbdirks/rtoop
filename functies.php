@@ -9,6 +9,25 @@ function toon_lijst($lijst,$naam) {
 	print "<hr>";
 }
 
+function kop() {
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="rekentrainer.css">
+	</head>	
+	<body>
+		<?php
+}
 
+
+function voet() {
+
+
+	?>
+	</body>
+	</html>
+	<?php
+}
 
 ?>

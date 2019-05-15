@@ -1,0 +1,17 @@
+body {
+	font-family: courier;
+	font-size: 14pt;
+	background-color: rgba(88,84,93,1);
+}
+
+#content {
+	
+	width: 75%;
+	height: 600px;
+	margin: auto;
+	margin-top: 50px;
+	padding: 20px;
+	background-color: rgba(88,191,174,1);
+	border: 1px solid black;
+	
+}

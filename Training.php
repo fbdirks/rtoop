@@ -28,7 +28,13 @@ class Training {
 	function moeilijkheid_vragen() {
 		// Opvraagformulier voor moeilijkheid
 		?>
-		<form action="rekentrainer.php" method="post">
+	
+		<!-- 
+			<form action="rekentrainer.php" method="post">
+			Als je op deze manier het action attribuut invult moet je als je dit object elders gebruikt de code altijd aanpassen.
+			Als je het op de manier doet die hieronder staat hoeft dat niet!
+		-->
+		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 			<h2>Moeilijkheidsgraad opgeven:</h2>
 			<input type="radio" name="soort" value="1" checked> 1 <br>
 			<input type="radio" name="soort" value="2"> 2 <br>
@@ -73,11 +79,13 @@ class Training {
 			$s = new Som($_SESSION['moeilijkheidsgraad']);
 			$_SESSION['som']++; # het nummer van de som ophogen.
 			$s->naar_session();
-			print "<form action='rekentrainer.php' method='post'>";
-			print "Reken uit:  $s->getal1 $s->bewerking $s->getal2 = ";
-			print "<input type='text' name='antwoord'>";
-			print "<input type='submit' name='actie' value='Antwoord Geven'>";
-			print "</form>";
+			?>
+			<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+			<?php echo "{$_SESSION['som']} / 10 "; ?>  Reken uit:  <?php echo "$s->getal1 $s->bewerking $s->getal2 = " ?>
+			<input type='text' name='antwoord' autofocus>
+			<input type='submit' name='actie' value='Antwoord Geven'>
+			</form>
+			<?php
 		} else {
 			// het laatste antwoord moet ook nog gecontroleerd worden!
 			$gegeven_antwoord = $_POST['antwoord'];

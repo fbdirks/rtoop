@@ -54,7 +54,7 @@ class Som {
 			do {
 				$this->willekeurige_getallen();
 				$this->goede_antwoord = $this->getal1 * $this->getal2;
-			} while ($this->goede_antwoord >= $this->eind);
+			} while ($this->goede_antwoord >= $this->eind) ;
 			break;
 		case 4:
 			$this->bewerking = "/";
@@ -87,8 +87,10 @@ class Som {
 	}
 
 	function willekeurige_getallen() {
+		do {
 		$this->getal1 = rand(1,$this->eind);
 		$this->getal2 = rand(1,$this->eind);
+	} while (($this->getal1==1) OR ($this->getal2==1));
 	}
 	
 	function wissel_getallen() {
