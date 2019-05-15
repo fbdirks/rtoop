@@ -2,10 +2,15 @@
 
 // rekentrainer.php
 
+include "functies.php";
 include "Training.php";
 include "Som.php";
 
+
 session_start();
+
+//toon_lijst($_SESSION,"Session");
+//toon_lijst($_POST,"Post");
 ?>
 
 <h2>Welkom bij deze rekentrainer</h2>
@@ -20,11 +25,8 @@ if (!isset($_POST['actie'])) {
 } else if($_POST['actie']=="Moeilijkheid Opgeven") {
 			$Beurt->moeilijkheid_opslaan();
 } else if ($_POST['actie']=="Antwoord Geven") {
-	if ($_SESSION['som'] < 10) {
 		$Beurt->som_opgeven();
-	} else {
-		$Beurt->resultaat_tonen();
-	}
+
 }
 
 

@@ -44,6 +44,9 @@ class Training {
 		print "U hebt gekozen voor moeilijkheidsgraad $_POST[soort].<br>";
 		$_SESSION['som']=0; # de som aan de beurt is 0.
 		$_SESSION['goed']=0; # er zijn nog 0 sommen goed aan het begin.
+		$_SESSION['goede_antwoord']=1;
+		$_SESSION['antwoord']=1;
+		$_SESSION['antwoorden']= "De opdrachten en gegeven antwoorden:<br>";		
 		$this->som_opgeven(); # overschakelen naar het laten zien van een som.
 
 	}
@@ -51,36 +54,60 @@ class Training {
 
 	function som_opgeven() {
 		// Verwerken antwoord (als er al een antwoord is) en tonen van nieuwe som 
-		if ($_SESSION['som'] < 10) {
-			// EERST CONTROLEREN
-			if ($_SESSION['som']>0) {
-				$gegeven_antwoord = $_POST['antwoord'];
-				if ($gegeven_antwoord == $_SESSION['antwoord']) {
-					$_SESSION['goed']++; # bij de goede antwoorden komt er 1 bij.
+		
+			if ($_SESSION['som'] < 10) {
+				// EERST CONTROLEREN, alleen als nummer van de som groter is dan 0.
+				if ($_SESSION['som']>0) {
+					$gegeven_antwoord = $_POST['antwoord'];
+					if ($gegeven_antwoord == $_SESSION['goede_antwoord']) {
+						$_SESSION['goed']++; # bij de goede antwoorden komt er 1 bij.
+						$kleur = "green";
+					} else {
+						$kleur = "red";
+					}
+					$_SESSION['antwoorden'] = $_SESSION['antwoorden'] . "$_SESSION[getal1] $_SESSION[bewerking] $_SESSION[getal2] = $_SESSION[goede_antwoord] (jij: <span style='color: $kleur;'>$_POST[antwoord] </span>)<br>";
 				}
-				$_SESSION['antwoorden'] = $_SESSION['antwoorden'] + "$_SESSION[getal1] $_SESSION[bewerking] $_SESSION[getal2] = $_SESSION[goede_antwoord] (jouw antwoord: $_POST[antwoord])";
-			}
-
+			
+		
 			// DAN DE NIEUWE tonen
 			$s = new Som($_SESSION['moeilijkheidsgraad']);
 			$_SESSION['som']++; # het nummer van de som ophogen.
-			$_SESSION['getal1'] = $s->getal1;
-			$_SESSION['getal2'] = $s->getal2;
-			$_SESSION['bewerking'] = $s->bewerking;
-			$_SESSION['goede_antwoord'] = $s->goede_antwoord;
+			$s->naar_session();
 			print "<form action='rekentrainer.php' method='post'>";
 			print "Reken uit:  $s->getal1 $s->bewerking $s->getal2 = ";
 			print "<input type='text' name='antwoord'>";
 			print "<input type='submit' name='actie' value='Antwoord Geven'>";
 			print "</form>";
 		} else {
+			// het laatste antwoord moet ook nog gecontroleerd worden!
+			$gegeven_antwoord = $_POST['antwoord'];
+			if ($gegeven_antwoord == $_SESSION['goede_antwoord']) {
+				$_SESSION['goed']++; # bij de goede antwoorden komt er 1 bij.
+				$kleur = "green";
+			} else {
+				$kleur = "red";
+			}
+			$_SESSION['antwoorden'] = $_SESSION['antwoorden'] . "$_SESSION[getal1] $_SESSION[bewerking] $_SESSION[getal2] = $_SESSION[goede_antwoord] (jij: <spann style='color: $kleur;'>$_POST[antwoord] </span>)<br>";
+			
 			$this->resultaat_tonen();
 		}
 	}
 
 
 	function resultaat_tonen() {
-		// Laten zien van het resultaat
+		print "Dit zijn de resultaten van je training:<br><hr>";
+		print "Aantal gestelde vragen:  {$_SESSION['som']} <br>";
+		print "Aantal vragen goed: {$_SESSION['goed']}<br>";
+		print "{$_SESSION['antwoorden']}";
+		print "<br><a href='rekentrainer.php'>Opnieuw proberen</a>";
+		
+		
+	}
+	
+	
+	function geheugen_wissen() {
+		session_unset();
+		session_destroy();
 	}
 }
 
